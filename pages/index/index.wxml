@@ -73,6 +73,4 @@
     <view class="bottom-spacer"></view>
   </scroll-view>
 
-  <!-- 底部TabBar -->
-  <tab-bar />
 </view>
