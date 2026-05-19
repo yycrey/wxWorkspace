@@ -1,0 +1,129 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="{{navBarStyle}}">
+    <view class="nav-content" style="{{navContentStyle}}">
+      <text class="nav-title">{{i18nTexts.title}}</text>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <scroll-view class="content-scroll" scroll-y="true" enhanced="true" bounces="false" style="position: relative; left: -20rpx; top: 0rpx">
+    <!-- 用户信息卡片 -->
+    <view class="user-card" style="height: 417rpx; display: block; box-sizing: border-box">
+      <!-- 已登录状态 -->
+      <view class="user-profile" wx:if="{{hasLogin && userInfo}}">
+        <!-- 用户信息区域 -->
+        <view class="user-info-wrapper">
+          <text class="user-name">{{userInfo.nickname}}</text>
+          <text class="user-id">ID: {{userInfo.id}}</text>
+        </view>
+      </view>
+
+      <!-- 未登录状态 -->
+      <view class="unlogin-container" wx:else>
+        <button class="login-btn" bindtap="onTapSimpleLogin" style="position: relative; left: 1rpx; top: -39rpx; height: 320rpx; display: flex; box-sizing: border-box">
+          <view class="login-avatar">
+            <view class="user-avatar-placeholder">
+              <text class="avatar-text">👤</text>
+            </view>
+          </view>
+          <text class="login-tip">{{i18nTexts.loginBtn}}</text>
+          <text class="login-desc">{{i18nTexts.loginDesc}}</text>
+        </button>
+      </view>
+    </view>
+
+    <!-- 功能菜单 -->
+    <view class="menu-section">
+      <view class="menu-title">{{i18nTexts.menuTitleCard}}</view>
+      
+      <view class="menu-item" bindtap="onCreateCard">
+        <view class="menu-left">
+          <text class="menu-icon">📇</text>
+          <text class="menu-text">{{i18nTexts.createCard}}</text>
+        </view>
+        <text class="menu-arrow">→</text>
+      </view>
+
+      <view class="menu-item" bindtap="onViewAllCards">
+        <view class="menu-left">
+          <text class="menu-icon">📋</text>
+          <text class="menu-text">{{i18nTexts.viewAllCards}}</text>
+        </view>
+        <text class="menu-arrow">→</text>
+      </view>
+
+      <view class="menu-item" bindtap="onEditCompanyIntro">
+        <view class="menu-left">
+          <text class="menu-icon">🏢</text>
+          <text class="menu-text">{{i18nTexts.companyIntro}}</text>
+        </view>
+        <text class="menu-arrow">→</text>
+      </view>
+    </view>
+
+    <!-- 账号管理 -->
+    <view class="menu-section" wx:if="{{hasLogin && userInfo}}">
+      <view class="menu-title">{{i18nTexts.menuTitleAccount}}</view>
+
+      <view class="menu-item" bindtap="onSwitchAccount">
+        <view class="menu-left">
+          <text class="menu-icon">🔄</text>
+          <text class="menu-text">{{i18nTexts.switchAccount}}</text>
+        </view>
+        <text class="menu-arrow">→</text>
+      </view>
+
+      <view class="menu-item" bindtap="onLogout">
+        <view class="menu-left">
+          <text class="menu-icon">🚪</text>
+          <text class="menu-text">{{i18nTexts.logout}}</text>
+        </view>
+        <text class="menu-arrow">→</text>
+      </view>
+    </view>
+
+    <!-- 语言切换 -->
+    <view class="menu-section">
+      <view class="menu-title">{{currentLang === 'zh' ? '语言' : currentLang === 'en' ? 'Language' : currentLang === 'ko' ? '언어' : currentLang === 'ru' ? 'Язык' : 'Idioma'}}</view>
+      <view class="menu-item" bindtap="onToggleLangPicker">
+        <view class="menu-left">
+          <text class="menu-icon">🌐</text>
+          <text class="menu-text" wx:if="{{supportedLangs.length}}">
+            <text wx:for="{{supportedLangs}}" wx:for-item="lang" wx:key="code">
+              <text wx:if="{{lang.code === currentLang}}">{{lang.nativeName}}</text>
+            </text>
+          </text>
+        </view>
+        <text class="menu-arrow">→</text>
+      </view>
+
+      <!-- 语言选择面板 -->
+      <view class="lang-picker" wx:if="{{showLangPicker}}">
+        <view 
+          class="lang-item {{item.code === currentLang ? 'active' : ''}}"
+          wx:for="{{supportedLangs}}" 
+          wx:key="code"
+          bindtap="onSelectLang"
+          data-lang="{{item.code}}"
+        >
+          <text class="lang-native">{{item.nativeName}}</text>
+          <text class="lang-name">{{item.name}}</text>
+          <text class="lang-check" wx:if="{{item.code === currentLang}}">✓</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 关于信息 -->
+    <view class="about-section">
+      <view class="about-card">
+        <text class="about-icon">💼</text>
+        <text class="about-title">{{i18nTexts.aboutTitle}}</text>
+        <text class="about-version">{{i18nTexts.aboutVersion}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部TabBar -->
+  <tab-bar />
+</view>

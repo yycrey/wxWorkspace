@@ -1,0 +1,176 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="{{navBarStyle}}">
+    <view class="nav-content" style="{{navContentStyle}}">
+      <view class="nav-back" bindtap="onBack">
+        <text class="back-icon">←</text>
+      </view>
+      <text class="nav-title">{{isEdit ? i18nTexts.titleEdit : i18nTexts.titleCreate}}</text>
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <!-- 表单内容 -->
+  <scroll-view class="form-scroll" scroll-y="true" enhanced="true" bounces="false">
+    <!-- 表单容器 -->
+    <view class="form-container">
+
+      <!-- ===== 实时名片预览 ===== -->
+      <view class="form-section">
+        <view class="form-title">{{i18nTexts.cardPreviewResult}}</view>
+        <view class="live-card-preview" style="{{background ? 'background-image:url(' + background + ');background-size:cover;background-position:center' : 'background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);'}}">
+          <view class="live-card-inner {{background ? 'live-bg-overlay' : ''}}">
+            <view class="live-card-left">
+              <view class="live-avatar">
+                <image wx:if="{{portrait}}" src="{{portrait}}" class="live-avatar-img" mode="aspectFill" />
+                <text wx:else class="live-avatar-text">{{name ? name[0] : '?'}}</text>
+              </view>
+              <view class="live-info">
+                <text class="live-name">{{name || '姓名'}}</text>
+                <text class="live-position">{{position || '职位'}}</text>
+                <text class="live-company" wx:if="{{company}}">{{company}}</text>
+                <text class="live-industry" wx:if="{{industry}}">{{industry}}</text>
+              </view>
+            </view>
+            <view class="live-card-right">
+              <text class="live-phone" wx:if="{{phone}}">{{phone}}</text>
+              <text class="live-wechat" wx:if="{{wechat}}">{{wechat}}</text>
+              <text class="live-address" wx:if="{{address}}">{{address}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- ===== 名片背景（横向滚动） ===== -->
+      <view class="form-section bg-section">
+        <view class="form-title">
+          <text>{{i18nTexts.cardBackground}}</text>
+          <view class="bg-clear-btn" wx:if="{{background}}" bindtap="onClearBackground">
+            <text class="bg-clear-text">{{i18nTexts.noBg}}</text>
+          </view>
+        </view>
+        <scroll-view class="bg-scroll-x" scroll-x enhanced show-scrollbar="{{false}}">
+          <view class="bg-scroll-inner">
+            <view class="bg-x-item {{background === item ? 'active' : ''}}" wx:for="{{presetBgs}}" wx:key="index" bindtap="onSelectBackground" data-bg="{{item}}">
+              <image src="{{item}}" mode="aspectFill" class="bg-x-thumb" />
+              <view class="bg-x-check" wx:if="{{background === item}}">✓</view>
+            </view>
+            <view class="bg-x-item bg-x-none {{!background ? 'active' : ''}}" bindtap="onClearBackground">
+              <view class="bg-x-none-inner">
+                <text class="bg-x-none-icon">⊘</text>
+                <text class="bg-x-none-txt">{{i18nTexts.noBg}}</text>
+              </view>
+            </view>
+            <view class="bg-x-item bg-x-upload" bindtap="onUploadBackground">
+              <view class="bg-x-upload-inner">
+                <text class="bg-x-upload-icon">+</text>
+                <text class="bg-x-upload-txt">{{i18nTexts.uploadBg}}</text>
+              </view>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 基本信息（含行业） -->
+      <view class="form-section">
+        <view class="form-title">{{i18nTexts.basicInfo}}</view>
+        <!-- 形象照 -->
+        <view class="form-item avatar-form-item">
+          <text class="form-label">{{i18nTexts.addPortrait}}</text>
+          <view class="avatar-upload-box" bindtap="onSelectPortrait">
+            <image wx:if="{{portrait}}" src="{{portrait}}" class="avatar-upload-img" mode="aspectFill" />
+            <view wx:else class="avatar-upload-placeholder">
+              <text class="av-upl-icon">+</text>
+              <text class="av-upl-text">{{i18nTexts.addPortrait}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="form-item">
+          <text class="form-label">{{i18nTexts.nameRequired}}</text>
+          <input class="form-input" placeholder="{{i18nTexts.namePlaceholder}}" value="{{name}}" data-field="name" bindinput="onInput" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">{{i18nTexts.position}}</text>
+          <input class="form-input" placeholder="{{i18nTexts.positionPlaceholder}}" value="{{position}}" data-field="position" bindinput="onInput" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">{{i18nTexts.company}}</text>
+          <input class="form-input" placeholder="{{i18nTexts.companyPlaceholder}}" value="{{company}}" data-field="company" bindinput="onInput" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">{{i18nTexts.industry}}</text>
+          <input class="form-input" placeholder="{{i18nTexts.industryPlaceholder}}" value="{{industry}}" data-field="industry" bindinput="onInput" />
+        </view>
+      </view>
+
+      <!-- 联系方式（含微信、邮箱、地址） -->
+      <view class="form-section">
+        <view class="form-title">{{i18nTexts.contactInfo}}</view>
+        <view class="form-item">
+          <text class="form-label">{{i18nTexts.phone}}</text>
+          <input class="form-input" type="number" placeholder="{{i18nTexts.phonePlaceholder}}" value="{{phone}}" data-field="phone" bindinput="onInput" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">{{i18nTexts.wechat}}</text>
+          <input class="form-input" placeholder="{{i18nTexts.wechatPlaceholder}}" value="{{wechat}}" data-field="wechat" bindinput="onInput" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">{{i18nTexts.email}}</text>
+          <input class="form-input" type="email" placeholder="{{i18nTexts.emailPlaceholder}}" value="{{email}}" data-field="email" bindinput="onInput" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">{{i18nTexts.address}}</text>
+          <input class="form-input" placeholder="{{i18nTexts.addressPlaceholder}}" value="{{address}}" data-field="address" bindinput="onInput" />
+        </view>
+      </view>
+
+      <!-- 个人介绍 -->
+      <view class="form-section">
+        <view class="form-title">{{i18nTexts.personalIntro}}</view>
+        <view class="form-item">
+          <textarea class="form-textarea" placeholder="{{i18nTexts.personalIntroPlaceholder}}" value="{{personalIntro}}" data-field="personalIntro" bindinput="onInput" maxlength="1000" />
+        </view>
+      </view>
+
+      <!-- 业务介绍 -->
+      <view class="form-section">
+        <view class="form-title">{{i18nTexts.businessIntro}}</view>
+        <view class="form-item">
+          <textarea class="form-textarea" placeholder="{{i18nTexts.businessIntroPlaceholder}}" value="{{businessIntro}}" data-field="businessIntro" bindinput="onInput" maxlength="2000" />
+        </view>
+      </view>
+
+      <!-- 名片附件 -->
+      <view class="form-section">
+        <view class="form-title">{{i18nTexts.attachment}}</view>
+        <view class="attachment-list" wx:if="{{attachments && attachments.length > 0}}">
+          <view class="attachment-item" wx:for="{{attachments}}" wx:for-item="att" wx:key="index">
+            <text class="att-icon">📎</text>
+            <text class="att-name">{{att.name}}</text>
+            <text class="att-del" bindtap="onDeleteAttachment" data-index="{{index}}">×</text>
+          </view>
+        </view>
+        <view class="upload-att-btn" bindtap="onSelectAttachment">
+          <text class="upload-att-icon">+</text>
+          <text class="upload-att-text">{{i18nTexts.uploadAttachment}}</text>
+        </view>
+      </view>
+
+      <!-- 底部保存按钮 -->
+      <view class="form-bottom-save">
+        <view class="form-save-btn" bindtap="onSave">
+          <text class="form-save-text">{{isEdit ? i18nTexts.saveEdit : i18nTexts.createCard}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="bottom-bar-content">
+      <view class="save-btn" bindtap="onSave">
+        <text class="save-text">{{isEdit ? i18nTexts.saveEdit : i18nTexts.createCard}}</text>
+      </view>
+    </view>
+  </view>
+</view>

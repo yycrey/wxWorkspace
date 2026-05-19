@@ -1,0 +1,39 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="{{navBarStyle}}">
+    <view class="nav-content" style="{{navContentStyle}}">
+      <text class="nav-title">{{i18nTexts.title}}</text>
+    </view>
+  </view>
+
+  <!-- 表单内容 -->
+  <scroll-view class="form-scroll" scroll-y="true" enhanced="true" bounces="false">
+    <view class="form-section">
+      <view class="form-item">
+        <text class="form-label">{{i18nTexts.label}}</text>
+        <textarea 
+          class="form-textarea" 
+          placeholder="{{i18nTexts.placeholder}}"
+          value="{{companyIntro}}"
+          bindinput="onInput"
+          maxlength="1000"
+        />
+        <text class="form-hint">{{companyIntro.length}}/1000</text>
+      </view>
+    </view>
+
+    <view class="tip-section">
+      <text class="tip-text">{{i18nTexts.hint}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="back-btn" bindtap="onBack">
+      <text class="back-text">{{commonTexts.back}}</text>
+    </view>
+    <view class="save-btn" bindtap="onSave">
+      <text class="save-text">{{commonTexts.save}}</text>
+    </view>
+  </view>
+</view>

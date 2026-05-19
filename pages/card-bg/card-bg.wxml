@@ -1,0 +1,58 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="{{navBarStyle}}">
+    <view class="nav-content" style="{{navContentStyle}}">
+      <text class="nav-title">{{i18nTexts.title}}</text>
+    </view>
+  </view>
+
+  <!-- 背景模板列表 -->
+  <scroll-view class="bg-scroll" scroll-y="true" enhanced="true" bounces="false">
+    <!-- 当前使用的背景 -->
+    <view class="current-section" wx:if="{{currentBg}}">
+      <view class="section-title">{{i18nTexts.currentBg}}</view>
+      <view class="current-bg">
+        <image src="{{currentBg}}" mode="aspectFill" class="bg-image" />
+      </view>
+    </view>
+
+    <!-- 预设背景 -->
+    <view class="section-title">{{i18nTexts.presetBg}}</view>
+    <view class="bg-grid">
+      <view 
+        class="bg-item {{item === currentBg ? 'active' : ''}}"
+        wx:for="{{presetBgs}}"
+        wx:key="index"
+        bindtap="onSelectBg"
+        data-bg="{{item}}"
+      >
+        <image src="{{item}}" mode="aspectFill" class="bg-thumb" />
+        <view class="selected-icon" wx:if="{{item === currentBg}}">✓</view>
+      </view>
+    </view>
+
+    <!-- 自定义背景 -->
+    <view class="section-title">{{i18nTexts.customBg}}</view>
+    <view class="custom-section">
+      <view class="bg-grid">
+        <view 
+          class="bg-item {{item === currentBg ? 'active' : ''}}"
+          wx:for="{{customBgs}}"
+          wx:key="index"
+          bindtap="onSelectBg"
+          data-bg="{{item}}"
+        >
+          <image src="{{item}}" mode="aspectFill" class="bg-thumb" />
+          <view class="selected-icon" wx:if="{{item === currentBg}}">✓</view>
+          <view class="delete-btn" catchtap="onDeleteCustomBg" data-index="{{index}}">×</view>
+        </view>
+        
+        <!-- 上传按钮 -->
+        <view class="upload-btn" bindtap="onUploadBg">
+          <text class="upload-icon">+</text>
+          <text class="upload-text">{{i18nTexts.uploadImg}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

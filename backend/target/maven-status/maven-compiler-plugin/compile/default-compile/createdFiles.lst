@@ -1,0 +1,4 @@
+com\wxcard\service\AttachmentService.class
+com\wxcard\dto\AttachmentDTO.class
+com\wxcard\mapper\AttachmentMapper.class
+com\wxcard\entity\Attachment.class

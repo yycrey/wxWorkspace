@@ -1,0 +1,276 @@
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* 导航栏 */
+.nav-bar {
+  flex-shrink: 0;
+  background: rgba(102, 126, 234, 0.95);
+  position: relative;
+  z-index: 10;
+  box-sizing: content-box;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30rpx;
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* 列表右侧形象照 */
+.card-item-portrait {
+  width: 120rpx;
+  height: 150rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.card-item-info-texts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* 内容滚动区域 */
+.content-scroll {
+  flex: 1;
+  height: 0;
+  padding: 20rpx 24rpx;
+  padding-bottom: 30rpx;
+  box-sizing: border-box;
+}
+
+/* 加载状态 */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100rpx;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 28rpx;
+}
+
+/* ===== 名片列表 ===== */
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.card-list-item {
+  background: #ffffff;
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.card-list-item:active {
+  transform: scale(0.98);
+}
+
+/* 名片卡片 */
+.card-item-front {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-item-bg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36rpx 32rpx;
+  background: linear-gradient(135deg, #f8faff, #eef0ff);
+  min-height: 160rpx;
+}
+
+.card-item-overlay {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.card-item-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-item-name {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 6rpx;
+}
+
+.card-item-position {
+  display: block;
+  font-size: 26rpx;
+  color: #718096;
+  margin-bottom: 4rpx;
+}
+
+.card-item-company {
+  display: inline-block;
+  font-size: 24rpx;
+  color: #1a73e8;
+  font-weight: 500;
+  margin-bottom: 4rpx;
+}
+
+.card-item-industry {
+  display: inline-block;
+  font-size: 22rpx;
+  color: #667eea;
+  font-weight: 500;
+  background: #eef0ff;
+  padding: 4rpx 16rpx;
+  border-radius: 14rpx;
+  margin-top: 4rpx;
+}
+
+.card-item-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: 16rpx;
+  flex-shrink: 0;
+  max-width: 200rpx;
+}
+
+.card-item-phone {
+  display: block;
+  font-size: 26rpx;
+  color: #2d3748;
+  font-weight: 600;
+  margin-bottom: 6rpx;
+}
+
+.card-item-wechat {
+  display: block;
+  font-size: 22rpx;
+  color: #07c160;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 操作按钮 */
+.card-item-actions {
+  display: flex;
+  border-top: 1rpx solid #f0f0f5;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 0;
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+.action-btn:active {
+  opacity: 0.7;
+}
+
+.action-edit {
+  color: #667eea;
+  border-right: 1rpx solid #f0f0f5;
+}
+
+.action-delete {
+  color: #e53e3e;
+}
+
+/* ===== 空状态 ===== */
+.empty-state {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 40rpx;
+}
+
+.empty-text {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 20rpx;
+}
+
+.empty-hint {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin-bottom: 50rpx;
+}
+
+.create-btn {
+  background: #ffffff;
+  color: #667eea;
+  padding: 24rpx 60rpx;
+  border-radius: 50rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.15);
+}
+
+.create-btn:active {
+  transform: scale(0.96);
+}
+
+/* 列表底部新增按钮（在卡片列表下方） */
+.list-create-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 44rpx;
+  margin-top: 24rpx;
+  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+
+.list-create-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.lc-icon {
+  font-size: 36rpx;
+  color: #667eea;
+  margin-right: 10rpx;
+  font-weight: bold;
+}
+
+.lc-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #667eea;
+}
+
+/* 底部留白 */
+.bottom-spacer {
+  height: 30rpx;
+}

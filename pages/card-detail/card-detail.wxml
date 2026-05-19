@@ -1,0 +1,186 @@
+<view class="page" wx:if="{{card}}">
+  <!-- 隐藏的画布用于生成分享图片 -->
+  <canvas canvas-id="shareCanvas" class="share-canvas" />
+
+  <!-- 顶部背景装饰 -->
+  <view class="top-bg" style="{{topBgStyle}}"></view>
+
+  <!-- ===== 导航栏 ===== -->
+  <view class="nav-bar" wx:if="{{!isSharedView}}" style="{{navBarStyle}}">
+    <view class="nav-content" style="{{navContentStyle}}">
+      <view class="nav-back" bindtap="onBack">
+        <text class="nav-back-icon">‹</text>
+      </view>
+      <text class="nav-title">{{i18nTexts.title}}</text>
+      <view class="nav-right">
+        <view class="nav-lang" bindtap="onToggleTranslate">
+          <text class="nav-lang-text" wx:if="{{translateLang === 'zh'}}">中文</text>
+          <text class="nav-lang-text" wx:else>
+            <block wx:for="{{supportedTransLangs}}" wx:for-item="lang" wx:key="code">
+              <text wx:if="{{lang.code === translateLang}}">{{lang.nativeName}}</text>
+            </block>
+          </text>
+          <text class="nav-lang-arrow">{{showTranslatePicker ? '▲' : '▼'}}</text>
+        </view>
+      </view>
+    </view>
+    <!-- 语言选择面板 -->
+    <view class="lang-picker" wx:if="{{showTranslatePicker}}">
+      <view 
+        class="lang-picker-item {{item.code === translateLang ? 'active' : ''}}"
+        wx:for="{{supportedTransLangs}}" 
+        wx:key="code"
+        bindtap="onSelectTranslateLang"
+        data-lang="{{item.code}}"
+      >
+        <text class="lp-name">{{item.nativeName}}</text>
+        <text class="lp-check" wx:if="{{item.code === translateLang}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 分享视图专用导航栏（极简，无操作按钮） ===== -->
+  <view class="nav-bar nav-bar-shared" wx:if="{{isSharedView}}" style="{{navBarStyle}}">
+    <view class="nav-content nav-content-shared" style="{{navContentStyle}}">
+      <text class="nav-title nav-title-shared">{{i18nTexts.title}}</text>
+    </view>
+  </view>
+
+  <!-- ===== 公司标题区 ===== -->
+  <view class="company-header">
+    <text class="company-header-name">{{card.company || ''}}</text>
+  </view>
+
+  <!-- 翻译中提示 -->
+  <view class="translating-tip" wx:if="{{isTranslating}}">
+    <text>{{i18nTexts.translating}}</text>
+  </view>
+
+  <!-- ===== 内容滚动区域 ===== -->
+  <scroll-view class="content-scroll" scroll-y="true" enhanced="true" bounces="false">
+
+    <!-- ===== 名片卡片 ===== -->
+    <view class="card-wrapper">
+      <view class="business-card" style="{{card.background ? 'background-image:url(' + card.background + ');background-size:cover;background-position:center' : ''}}">
+        <view class="business-card-bg {{card.background ? 'card-bg-overlay' : ''}}">
+
+        <!-- 卡片主体 -->
+        <view class="card-body">
+          <!-- 左侧信息 -->
+          <view class="card-left">
+            <!-- 姓名职位 -->
+            <view class="card-identity">
+              <view class="card-name-section">
+                <view class="card-name-row">
+                  <text class="card-name">{{translated ? translated.name : card.name}}</text>
+                  <view class="translated-badge" wx:if="{{translated && translateLang !== 'zh'}}">
+                    <text>{{translateLang === 'en' ? 'EN' : translateLang === 'ko' ? 'KO' : translateLang === 'ru' ? 'RU' : 'ES'}}</text>
+                  </view>
+                </view>
+                <text class="card-position">{{translated ? translated.position : card.position}}</text>
+              </view>
+            </view>
+
+            <!-- 公司行 -->
+            <view class="card-company-logos" wx:if="{{card.company}}">
+              <view class="company-logo-tag">{{card.company}}</view>
+            </view>
+
+            <!-- 联系信息 -->
+            <view class="card-info-list">
+              <view class="card-info-item" wx:if="{{card.phone}}">
+                <text class="info-label">{{i18nTexts.phone}}</text>
+                <text class="info-value">{{card.phone}}</text>
+              </view>
+              <view class="card-info-item" wx:if="{{card.wechat}}">
+                <text class="info-label">微信</text>
+                <text class="info-value">{{card.wechat}}</text>
+              </view>
+              <view class="card-info-item" wx:if="{{card.email}}">
+                <text class="info-label">邮箱</text>
+                <text class="info-value">{{card.email}}</text>
+              </view>
+              <view class="card-info-item" wx:if="{{card.address}}">
+                <text class="info-label">地址</text>
+                <text class="info-value">{{translated ? translated.address : card.address}}</text>
+              </view>
+              <view class="card-info-item" wx:if="{{card.industry}}">
+                <text class="info-label">行业</text>
+                <text class="info-value">{{card.industry}}</text>
+              </view>
+            </view>
+          </view>
+          <!-- 右侧形象照 -->
+          <view class="card-right" wx:if="{{card.portrait}}">
+            <image class="card-right-img" src="{{card.portrait}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{card.portrait}}" />
+          </view>
+        </view>
+
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== 个人介绍 ===== -->
+    <view class="intro-section" wx:if="{{card.personalIntro}}">
+      <view class="intro-title">{{i18nTexts.intro}}</view>
+      <view class="intro-content">{{card.personalIntro}}</view>
+    </view>
+
+    <!-- ===== 业务介绍 ===== -->
+    <view class="intro-section" wx:if="{{card.businessIntro}}">
+      <view class="intro-title">{{i18nTexts.businessIntro}}</view>
+      <view class="intro-content">{{card.businessIntro}}</view>
+    </view>
+
+    <!-- ===== 兼容旧字段 introduction ===== -->
+    <view class="intro-section" wx:if="{{card.introduction && !card.personalIntro}}">
+      <view class="intro-title">{{i18nTexts.intro}}</view>
+      <view class="intro-content">{{card.introduction}}</view>
+    </view>
+
+    <!-- ===== 公司简介 ===== -->
+    <view class="intro-section" wx:if="{{companyIntro}}">
+      <view class="intro-title">{{i18nTexts.companyIntro}}</view>
+      <view class="intro-content">
+        <rich-text nodes="{{companyIntroHtml}}"></rich-text>
+      </view>
+    </view>
+
+    <!-- ===== (非分享视图) 快捷操作栏 ===== -->
+    <view class="quick-actions" wx:if="{{card.phone && !isSharedView}}">
+      <view class="qa-btn qa-call" bindtap="onCallPhone">
+        <text class="qa-icon">📞</text>
+        <text class="qa-text">{{i18nTexts.callPhone}}</text>
+      </view>
+      <view class="qa-btn qa-share" bindtap="onShareCard">
+        <text class="qa-icon">📤</text>
+        <text class="qa-text">{{i18nTexts.shareCard}}</text>
+      </view>
+      <view class="qa-btn qa-save" bindtap="onAddContact">
+        <text class="qa-icon">📇</text>
+        <text class="qa-text">{{i18nTexts.saveContact}}</text>
+      </view>
+    </view>
+
+    <!-- ===== (非分享视图) 功能按钮区 ===== -->
+    <view class="action-grid" wx:if="{{!isSharedView}}">
+      <view class="ag-item" bindtap="onAddContact" wx:if="{{card.phone}}">
+        <text class="ag-icon">📇</text>
+        <text class="ag-text">{{i18nTexts.addToContacts}}</text>
+      </view>
+      <view class="ag-item" bindtap="onAddWechat">
+        <text class="ag-icon">💬</text>
+        <text class="ag-text">{{i18nTexts.addWechat}}</text>
+      </view>
+    </view>
+
+  </scroll-view>
+
+  <!-- ===== (非分享视图) 底部编辑栏 ===== -->
+  <view class="bottom-bar" wx:if="{{!isSharedView}}">
+    <view class="bottom-edit-btn" bindtap="onEditCard">
+      <text class="be-icon">✏️</text>
+      <text class="be-text">{{i18nTexts.editCard}}</text>
+    </view>
+  </view>
+</view>

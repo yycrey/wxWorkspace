@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:wxcard}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+# 文件上传路径
+upload:
+  path: ${UPLOAD_PATH:./uploads/}
+  base-url: ${UPLOAD_BASE_URL:http://127.0.0.1:8080/uploads/}
+
+# 微信小程序配置
+wx:
+  miniapp:
+    appid: ${WX_APPID:wxa55e771b5bb11333}
+    #个人wx_sercet ip 敏感信息重点优化处理
+    secret: ${WX_SECRET:ba42b6a0bc6ea228adba203fdcb472fb}
+
+# ===== 名片内容翻译配置 =====
+# 使用百度翻译开放API（免费版每月100万字符）
+# 请前往 https://fanyi-api.baidu.com/ 注册并获取 APP ID 和密钥
+translate:
+  baidu:
+    appid: ${BAIDU_TRANSLATE_APPID:20221008001376165}
+    secret: ${BAIDU_TRANSLATE_SECRET:xyrlOYgJhkjoFQm9Jc96}

@@ -1,0 +1,78 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="{{navBarStyle}}">
+    <view class="nav-content" style="{{navContentStyle}}">
+      <view class="nav-title">{{i18nTexts.title}}</view>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <scroll-view class="content-scroll" scroll-y="true" enhanced="true" bounces="false" refresher-enabled="{{true}}" refresher-triggered="{{isLoading}}">
+
+    <!-- 加载状态 -->
+    <view class="loading-state" wx:if="{{isLoading && cardList.length === 0}}">
+      <text>{{i18nTexts.loading}}</text>
+    </view>
+
+    <!-- 名片列表 -->
+    <view class="card-list" wx:if="{{cardList.length > 0 && !isLoading}}">
+      <view
+        class="card-list-item"
+        wx:for="{{cardList}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onGoToDetail"
+      >
+        <!-- 名片卡片 -->
+        <view class="card-item-front" style="{{item.background ? 'background-image:url(' + item.background + ');background-size:cover;background-position:center' : ''}}">
+          <view class="card-item-bg {{item.background ? 'card-item-overlay' : ''}}">
+            <view class="card-item-left">
+              <view class="card-item-name">{{item.name}}</view>
+              <text class="card-item-position" wx:if="{{item.position}}">{{item.position}}</text>
+              <text class="card-item-company" wx:if="{{item.company}}">{{item.company}}</text>
+              <text class="card-item-industry" wx:if="{{item.industry && item.industry !== '机械设备'}}">{{item.industry}}</text>
+            </view>
+            <view class="card-item-right">
+              <image wx:if="{{item.portrait}}" src="{{item.portrait}}" class="card-item-portrait" mode="aspectFill" />
+              <view wx:else class="card-item-info-texts">
+                <text class="card-item-phone" wx:if="{{item.phone}}">{{item.phone}}</text>
+                <text class="card-item-wechat" wx:if="{{item.wechat}}">微信: {{item.wechat}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <!-- 操作按钮 -->
+        <view class="card-item-actions">
+          <view class="action-btn action-edit" data-id="{{item.id}}" catchtap="onEditCard">
+            <text>✏️ 编辑</text>
+          </view>
+          <view class="action-btn action-delete" data-id="{{item.id}}" data-name="{{item.name}}" catchtap="onDeleteCard">
+            <text>🗑️ 删除</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 有卡片时底部新增按钮 -->
+    <view class="list-create-btn" wx:if="{{cardList.length > 0 && !isLoading}}" bindtap="onCreateCard">
+      <text class="lc-icon">+</text>
+      <text class="lc-text">{{i18nTexts.createCard}}</text>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{cardList.length === 0 && !isLoading}}">
+      <text class="empty-icon">📇</text>
+      <text class="empty-text">{{i18nTexts.emptyTitle}}</text>
+      <text class="empty-hint">{{i18nTexts.emptyHint}}</text>
+      <view class="create-btn" bindtap="onCreateCard">
+        <text>{{i18nTexts.createCard}}</text>
+      </view>
+    </view>
+
+    <!-- 底部留白 -->
+    <view class="bottom-spacer"></view>
+  </scroll-view>
+
+  <!-- 底部TabBar -->
+  <tab-bar />
+</view>

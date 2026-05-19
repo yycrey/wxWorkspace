@@ -1,0 +1,472 @@
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f5f7fa;
+  position: relative;
+}
+
+/* 隐藏的画布 */
+.share-canvas {
+  position: fixed;
+  left: -1000px;
+  top: -1000px;
+  width: 300px;
+  height: 200px;
+}
+
+/* ===== 顶部背景渐变 ===== */
+.top-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+  z-index: 0;
+}
+
+/* ===== 导航栏 ===== */
+.nav-bar {
+  position: relative;
+  z-index: 10;
+  box-sizing: content-box;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24rpx;
+}
+
+.nav-back {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-back-icon {
+  font-size: 52rpx;
+  color: #ffffff;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #ffffff;
+  flex: 1;
+  text-align: center;
+}
+
+.nav-right {
+  width: 160rpx;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-lang {
+  display: flex;
+  align-items: center;
+  padding: 6rpx 16rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 30rpx;
+}
+
+.nav-lang-text {
+  font-size: 24rpx;
+  color: #ffffff;
+}
+
+.nav-lang-arrow {
+  font-size: 18rpx;
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: 4rpx;
+}
+
+/* 语言选择面板 */
+.lang-picker {
+  position: absolute;
+  top: 100%;
+  right: 24rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.15);
+  padding: 12rpx;
+  z-index: 200;
+  min-width: 240rpx;
+}
+
+.lang-picker-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+  border-radius: 12rpx;
+}
+
+.lang-picker-item.active {
+  background: #e8f0fe;
+}
+
+.lp-name {
+  font-size: 28rpx;
+  color: #2d3748;
+}
+
+.lp-check {
+  color: #1a73e8;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+/* ===== 公司标题区 ===== */
+.company-header {
+  position: relative;
+  z-index: 5;
+  padding: 16rpx 32rpx 20rpx;
+}
+
+.company-header-name {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+/* 翻译中提示 */
+.translating-tip {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding: 12rpx;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 24rpx;
+}
+
+/* ===== 内容滚动区域 ===== */
+.content-scroll {
+  flex: 1;
+  height: 0;
+  position: relative;
+  z-index: 5;
+  padding: 0 24rpx 20rpx;
+}
+
+/* ===== 名片卡片 ===== */
+.card-wrapper {
+  margin-top: 10rpx;
+}
+
+.business-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.business-card-bg {
+  position: relative;
+  z-index: 1;
+}
+
+.card-bg-overlay {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+/* 卡片主体 */
+.card-body {
+  display: flex;
+  padding: 32rpx;
+}
+
+.card-left {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ===== 右侧形象照 ===== */
+.card-right {
+  flex-shrink: 0;
+  margin-left: 24rpx;
+  width: 200rpx;
+  display: flex;
+  align-items: flex-start;
+}
+
+.card-right-img {
+  width: 200rpx;
+  height: 240rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+
+/* ===== 姓名职位 ===== */
+.card-identity {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.card-name-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-name-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6rpx;
+}
+
+.card-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.card-position {
+  font-size: 26rpx;
+  color: #718096;
+  display: block;
+}
+
+/* 翻译标记 */
+.translated-badge {
+  display: inline-block;
+  background: #1a73e8;
+  color: #ffffff;
+  font-size: 18rpx;
+  font-weight: 600;
+  padding: 2rpx 10rpx;
+  border-radius: 8rpx;
+  margin-left: 10rpx;
+  vertical-align: middle;
+}
+
+/* ===== 公司标签 ===== */
+.card-company-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+
+.company-logo-tag {
+  background: #e8f0fe;
+  color: #1a73e8;
+  font-size: 22rpx;
+  padding: 8rpx 18rpx;
+  border-radius: 20rpx;
+  font-weight: 500;
+}
+
+/* ===== 联系信息 ===== */
+.card-info-list {
+  background: rgba(248, 249, 252, 0.9);
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+}
+
+.card-info-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 10rpx 0;
+}
+
+.card-info-item + .card-info-item {
+  border-top: 1rpx solid #eef0f4;
+}
+
+.info-label {
+  font-size: 24rpx;
+  color: #a0aec0;
+  width: 60rpx;
+  flex-shrink: 0;
+  margin-top: 2rpx;
+}
+
+.info-value {
+  font-size: 24rpx;
+  color: #4a5568;
+  flex: 1;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+/* ===== 快捷操作栏 ===== */
+.quick-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.qa-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 10rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.qa-btn:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+}
+
+.qa-icon {
+  font-size: 40rpx;
+  margin-bottom: 6rpx;
+}
+
+.qa-text {
+  font-size: 22rpx;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+/* ===== 功能按钮网格 ===== */
+.action-grid {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+
+.ag-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 10rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.ag-item:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+}
+
+.ag-icon {
+  font-size: 36rpx;
+  margin-bottom: 8rpx;
+}
+
+.ag-text {
+  font-size: 22rpx;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+/* ===== 个人简介 ===== */
+.intro-section {
+  margin-top: 24rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.intro-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 16rpx;
+}
+
+.intro-content {
+  font-size: 26rpx;
+  color: #4a5568;
+  line-height: 1.8;
+}
+
+/* ===== 分享视图专用导航栏（无按钮，仅标题居中） ===== */
+.nav-bar-shared {
+  /* 共享视图导航栏，样式复用 nav-bar，仅内容不同 */
+}
+.nav-content-shared {
+  justify-content: center;
+}
+.nav-title-shared {
+  text-align: center;
+  flex: none;
+}
+
+/* ===== 底部编辑栏 ===== */
+.bottom-bar {
+  flex-shrink: 0;
+  padding: 16rpx 24rpx;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  background: #ffffff;
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.06);
+  position: relative;
+  z-index: 10;
+}
+
+.bottom-edit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+  border-radius: 44rpx;
+  box-shadow: 0 6rpx 20rpx rgba(26, 115, 232, 0.3);
+}
+
+.bottom-edit-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.be-icon {
+  font-size: 32rpx;
+  color: #ffffff;
+  margin-right: 10rpx;
+}
+
+.be-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* ===== 保留原有简介 section-title（用于公司简介） ===== */
+.images-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20rpx;
+  margin-top: 24rpx;
+}
+
+.image-item {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.image-item image {
+  width: 100%;
+  height: 100%;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 24rpx;
+  margin-top: 24rpx;
+}
